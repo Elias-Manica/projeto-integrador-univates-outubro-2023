@@ -1,30 +1,37 @@
 package com.mycompany.projetointegrador;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 public class ProjetoIntegrador {
     public static void main(String[] args) {
         DbConnection dataConnection = new DbConnection();
         Connection conexao = dataConnection.getConnection();
-        String texto;
+        
+        InterfaceMenu interfaceMenuLayout = new InterfaceMenu();
+        int opcaoMenuPrimario = 0;
+        int opcaoMenuSecundario = 0;
 
         if (conexao != null) {
-            try {
-                Statement statement = conexao.createStatement();
+            System.out.println("Banco conectado");
+            System.out.println("----------------");
                 
-                System.out.println("Banco conectado");
-                System.out.println("----------------");
+            while(opcaoMenuPrimario != 7) {
+                interfaceMenuLayout.showMenuPrimary();
+                opcaoMenuPrimario = Entrada.leiaInt(); 
+                if(opcaoMenuPrimario == 1) {
+                    interfaceMenuLayout.showMenuSecondary();
+                    opcaoMenuSecundario = Entrada.leiaInt(); 
+                    if(opcaoMenuSecundario == 1) {
+                        String nomePessoa = Entrada.leiaString("Qual o nome da Pessoa?");
+                        String cargo = Entrada.leiaString("Qual o cargo da Pessoa?");
+                        String cpf = Entrada.leiaString("Qual o cpf  da Pessoa?");
+                        String telefone = Entrada.leiaString("Qual o telefone da Pessoa?");
 
-                ResultSet rsClient = statement.executeQuery("SELECT * FROM public.tipoobjeto");
-
-                while (rsClient.next()) {
-                    System.out.println("Código: " + rsClient.getString("nome"));
+                        interfaceMenuLayout.verificaPessoa(nomePessoa, cargo, cpf, telefone);
+                        
+                        dataConnection.registerPessoa(nomePessoa, cargo, cpf, telefone);
+                    }
                 }
-            } catch (SQLException e) {
-                System.out.println("Erro ao executar a consulta: " + e.getMessage());
             }
         } else {
             System.out.println("Não foi possivel conectar ao banco");
