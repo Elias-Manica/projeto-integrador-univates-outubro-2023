@@ -9,14 +9,13 @@ public class InterfaceMenu {
         System.out.println("2 - Tipos de objetos");
         System.out.println("3 - Objetos");
         System.out.println("4 - Manutenção");
-        System.out.println("5 - Tipos de serviços");
-        System.out.println("6 - Empréstimo");
-        System.out.println("7 - Sair");
+        System.out.println("5 - Empréstimo");
+        System.out.println("6 - Sair");
     }
     
-    public void showMenuSecondary() {
+    public void showMenuSecondary(String typeMenu) {
        System.out.println("----------------");
-       System.out.println("Você está no sistema de PESSOAS");
+       System.out.println("Você está no sistema de " + typeMenu);
        System.out.println("Escolha uma ação para realizar:");
        System.out.println("1 - Incluir / Cadastrar");
        System.out.println("2 - Consultar");
@@ -42,6 +41,24 @@ public class InterfaceMenu {
         }
         if(telefone.length() > 11) {
             System.out.println("Campo inválido! O telefone deve ter 11 caracteres");
+            return false;
+        }
+        return true;
+    }
+    
+     public Boolean verificaObjeto(String nomeObjeto) {
+        if(nomeObjeto.length() <= 0 || nomeObjeto.length() > 200) {
+            System.out.println("Campo inválido! O nome deve ter entre 1 ou 200 caracteres");
+            System.out.println(" ");
+            return false;
+        }
+        return true;
+    }
+     
+     public Boolean verificaManutencao(String descricao) {
+        if(descricao.length() <= 0 || descricao.length() > 500) {
+            System.out.println("Campo inválido! A descricao deve ter entre 1 ou 500 caracteres");
+            System.out.println(" ");
             return false;
         }
         return true;

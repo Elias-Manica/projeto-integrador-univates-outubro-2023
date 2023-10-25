@@ -47,4 +47,76 @@ public class DbConnection {
             System.out.println("Erro ao executar a consulta: " + e.getMessage());
         }
     }
+    
+    public void registerTipoObjeto(String nomeObjeto) {
+        try {
+            Statement statement = conexao.createStatement();
+            String query = String.format("INSERT INTO public.tipoobjeto (nome) VALUES ('%s');", nomeObjeto);
+            
+            int rowsAffected = statement.executeUpdate(query);
+
+            if (rowsAffected > 0) {
+                String response = String.format("O tipo objeto %s foi adicionado ao sistema", nomeObjeto);
+                System.out.println(response);
+            } else {
+                System.out.println("Nenhum registro foi adicionado ao banco de dados.");
+            }
+        } catch (SQLException e){
+            System.out.println("Erro ao executar a consulta: " + e.getMessage());
+        }
+    }
+     
+    public void registerObjeto(int idTipoObjeto, int idPessoa, String status) {
+        try {
+            Statement statement = conexao.createStatement();
+            String query = String.format("INSERT INTO public.objeto (tipoobjetoid, pessoaid, status) VALUES ('%s', '%s', '%s');", idTipoObjeto, idPessoa, status);
+            
+            int rowsAffected = statement.executeUpdate(query);
+
+            if (rowsAffected > 0) {
+                String response = String.format("O objeto foi adicionado ao sistema");
+                System.out.println(response);
+            } else {
+                System.out.println("Nenhum registro foi adicionado ao banco de dados.");
+            }
+        } catch (SQLException e){
+            System.out.println("Erro ao executar a consulta: " + e.getMessage());
+        }
+    }
+    
+    public void registerManutencao(int idObjeto, String status, String descricao, String dataInicialConserto) {
+        try {
+            Statement statement = conexao.createStatement();
+            String query = String.format("INSERT INTO public.manutencao (objetoid, status, descricao, datainicialconserto) VALUES ('%s', '%s', '%s','%s');", idObjeto, status, descricao, dataInicialConserto);
+            
+            int rowsAffected = statement.executeUpdate(query);
+
+            if (rowsAffected > 0) {
+                String response = String.format("O objeto foi adicionado a lista de manutenção");
+                System.out.println(response);
+            } else {
+                System.out.println("Nenhum registro foi adicionado ao banco de dados.");
+            }
+        } catch (SQLException e){
+            System.out.println("Erro ao executar a consulta: " + e.getMessage());
+        }
+    }
+    
+    public void registerEmprestimo(int idObjeto, int pessoaId, String dataInicialEmprestimo) {
+        try {
+            Statement statement = conexao.createStatement();
+            String query = String.format("INSERT INTO public.emprestimo (objetoid, pessoaportadoraid, dataemprestimo) VALUES ('%s', '%s', '%s');", idObjeto, pessoaId, dataInicialEmprestimo);
+            
+            int rowsAffected = statement.executeUpdate(query);
+
+            if (rowsAffected > 0) {
+                String response = String.format("Empréstimo adicionado");
+                System.out.println(response);
+            } else {
+                System.out.println("Nenhum registro foi adicionado ao banco de dados.");
+            }
+        } catch (SQLException e){
+            System.out.println("Erro ao executar a consulta: " + e.getMessage());
+        }
+    }
 }
