@@ -55,7 +55,7 @@ public class ProjetoIntegrador {
                     if(opcaoMenuSecundario == 1) {
                         int idTipoObjeto = Entrada.leiaInt("Qual o ID do tipo do objeto?");
                         int idPessoa = Entrada.leiaInt("Qual o ID da pessoa dona do objeto?");
-                        String status = "disponivel";
+                        String status = "DISPONIVEL";
                         
                         dataConnection.registerObjeto(idTipoObjeto, idPessoa, status);
 
@@ -69,7 +69,7 @@ public class ProjetoIntegrador {
                     opcaoMenuSecundario = Entrada.leiaInt("Qual ação você deseja realizar: ");
                     if(opcaoMenuSecundario == 1) {
                         int idObjeto = Entrada.leiaInt("Qual o ID do objeto que sofrerá manutenção? ");
-                        String status = "manutencao";
+                        String status = "MANUTENCAO";
                         String descricao = Entrada.leiaString("Dê uma descrição à manutenção: ");
                         String dataInicialConserto = Entrada.leiaString("Qual a data de inicio do conserto? EX: '2023-10-25' ");
                         

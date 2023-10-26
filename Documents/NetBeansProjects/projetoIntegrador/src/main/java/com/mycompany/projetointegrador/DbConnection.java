@@ -33,7 +33,7 @@ public class DbConnection {
     public void registerPessoa(String nomePessoa,  String cargo, String cpf, String telefone) {
         try {
             Statement statement = conexao.createStatement();
-            String query = String.format("INSERT INTO public.pessoa (nome, cargo, cpf, telefone) VALUES ('%s', '%s', '%s', '%s');", nomePessoa, cargo, cpf, telefone);
+            String query = String.format("INSERT INTO public.pessoa (nome, cargo, cpf, telefone) VALUES ('%s', '%s', '%s', '%s');", nomePessoa.toUpperCase(), cargo.toUpperCase(), cpf, telefone);
             
             int rowsAffected = statement.executeUpdate(query);
 
@@ -51,7 +51,7 @@ public class DbConnection {
     public void registerTipoObjeto(String nomeObjeto) {
         try {
             Statement statement = conexao.createStatement();
-            String query = String.format("INSERT INTO public.tipoobjeto (nome) VALUES ('%s');", nomeObjeto);
+            String query = String.format("INSERT INTO public.tipoobjeto (nome) VALUES ('%s');", nomeObjeto.toUpperCase());
             
             int rowsAffected = statement.executeUpdate(query);
 
