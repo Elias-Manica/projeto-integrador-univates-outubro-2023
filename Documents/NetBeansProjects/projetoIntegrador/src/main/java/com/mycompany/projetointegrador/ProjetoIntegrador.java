@@ -30,7 +30,11 @@ public class ProjetoIntegrador {
                         if(interfaceMenuLayout.verificaPessoa(nomePessoa, cargo, cpf, telefone)){
                             dataConnection.registerPessoa(nomePessoa, cargo, cpf, telefone);
                         }
-                    } else {
+                    } 
+                    if(opcaoMenuSecundario == 2) {
+                        dataConnection.findPessoa();
+                    }
+                    else {
                         System.out.println("Opção ainda não foi implementada");
                         System.out.println("----------------");
                     }
@@ -44,7 +48,11 @@ public class ProjetoIntegrador {
                         if(interfaceMenuLayout.verificaObjeto(nomeObjeto)) {
                             dataConnection.registerTipoObjeto(nomeObjeto);
                         }
-                    } else {
+                    } 
+                    if(opcaoMenuSecundario == 2) {
+                        dataConnection.findTipoObjeto();
+                    } 
+                    else {
                         System.out.println("Opção ainda não foi implementada");
                         System.out.println("----------------");
                     }
@@ -59,7 +67,11 @@ public class ProjetoIntegrador {
                         
                         dataConnection.registerObjeto(idTipoObjeto, idPessoa, status);
 
-                    } else {
+                    }
+                    if(opcaoMenuSecundario == 2) {
+                        dataConnection.findObjeto();
+                    }
+                    else {
                         System.out.println("Opção ainda não foi implementada");
                         System.out.println("----------------");
                     }
@@ -74,8 +86,11 @@ public class ProjetoIntegrador {
                         String dataInicialConserto = Entrada.leiaString("Qual a data de inicio do conserto? EX: '2023-10-25' ");
                         
                         dataConnection.registerManutencao(idObjeto, status, descricao, dataInicialConserto);
-
-                    } else {
+                    }
+                    if(opcaoMenuSecundario == 2) {
+                        dataConnection.findManutencao();
+                    }
+                    else {
                         System.out.println("Opção ainda não foi implementada");
                         System.out.println("----------------");
                     }
@@ -90,7 +105,11 @@ public class ProjetoIntegrador {
                         
                         dataConnection.registerEmprestimo(idObjeto, pessoaId, dataInicialEmprestimo);
 
-                    } else {
+                    } 
+                    if(opcaoMenuSecundario == 2) {
+                        dataConnection.findEmprestimo();
+                    }
+                    else {
                         System.out.println("Opção ainda não foi implementada");
                         System.out.println("----------------");
                     }

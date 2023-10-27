@@ -48,6 +48,28 @@ public class DbConnection {
         }
     }
     
+    public void findPessoa() {
+        try {
+            Statement statement = conexao.createStatement();
+            String query = String.format("SELECT id, nome, cargo, cpf, telefone FROM public.pessoa;");
+            
+            ResultSet rsClient = statement.executeQuery(query);
+
+            while (rsClient.next()) {
+                System.out.println("===================================");
+                System.out.println("Id: " + rsClient.getString("id"));
+                System.out.println("Nome: " + rsClient.getString("nome"));
+                System.out.println("Cargo: " + rsClient.getString("cargo"));
+                System.out.println("CPF: " + rsClient.getString("cpf"));
+                System.out.println("Telefone: " + rsClient.getString("telefone"));
+                System.out.println("===================================");
+            }
+           
+        } catch (SQLException e){
+            System.out.println("Erro ao executar a consulta: " + e.getMessage());
+        }
+    }
+    
     public void registerTipoObjeto(String nomeObjeto) {
         try {
             Statement statement = conexao.createStatement();
@@ -61,6 +83,25 @@ public class DbConnection {
             } else {
                 System.out.println("Nenhum registro foi adicionado ao banco de dados.");
             }
+        } catch (SQLException e){
+            System.out.println("Erro ao executar a consulta: " + e.getMessage());
+        }
+    }
+    
+     public void findTipoObjeto() {
+        try {
+            Statement statement = conexao.createStatement();
+            String query = String.format("SELECT id, nome FROM public.tipoobjeto;");
+            
+            ResultSet rsClient = statement.executeQuery(query);
+
+            while (rsClient.next()) {
+                System.out.println("===================================");
+                System.out.println("Id: " + rsClient.getString("id"));
+                System.out.println("Nome: " + rsClient.getString("nome"));
+                System.out.println("===================================");
+            }
+           
         } catch (SQLException e){
             System.out.println("Erro ao executar a consulta: " + e.getMessage());
         }
@@ -84,6 +125,27 @@ public class DbConnection {
         }
     }
     
+    public void findObjeto() {
+        try {
+            Statement statement = conexao.createStatement();
+            String query = String.format("SELECT objeto.id, tipoobjeto.nome AS nomeferramenta, pessoa.nome AS nomePessoa, objeto.status FROM objeto JOIN tipoobjeto ON objeto.tipoobjetoid = tipoobjeto.id JOIN pessoa ON objeto.pessoaid = pessoa.id;");
+            
+            ResultSet rsClient = statement.executeQuery(query);
+
+            while (rsClient.next()) {
+                System.out.println("===================================");
+                System.out.println("Id: " + rsClient.getString("id"));
+                System.out.println("Ferramenta: " + rsClient.getString("nomeferramenta"));
+                System.out.println("Dono: " + rsClient.getString("nomePessoa"));
+                System.out.println("Status: " + rsClient.getString("status"));
+                System.out.println("===================================");
+            }
+           
+        } catch (SQLException e){
+            System.out.println("Erro ao executar a consulta: " + e.getMessage());
+        }
+    }
+    
     public void registerManutencao(int idObjeto, String status, String descricao, String dataInicialConserto) {
         try {
             Statement statement = conexao.createStatement();
@@ -102,6 +164,32 @@ public class DbConnection {
         }
     }
     
+    public void findManutencao() {
+        try {
+            Statement statement = conexao.createStatement();
+            String query = String.format("SELECT manutencao.id, pessoa.nome AS dono, tipoobjeto.nome AS tipoObjeto, objeto.status, manutencao.descricao, manutencao.datainicialconserto, manutencao.datafinalconserto FROM manutencao JOIN objeto ON manutencao.objetoid = objeto.id JOIN pessoa ON objeto.pessoaid = pessoa.id JOIN tipoobjeto ON objeto.tipoobjetoid = tipoobjeto.id;");
+            
+            ResultSet rsClient = statement.executeQuery(query);
+
+            while (rsClient.next()) {
+                System.out.println("===================================");
+                System.out.println("Id: " + rsClient.getString("id"));
+                System.out.println("Ferramenta: " + rsClient.getString("tipoObjeto"));
+                System.out.println("Dono: " + rsClient.getString("dono"));
+                System.out.println("Descrição: " + rsClient.getString("descricao"));
+                System.out.println("Data inicial conserto: " + rsClient.getString("datainicialconserto"));
+                if(rsClient.getString("datafinalconserto") != null) {
+                    System.out.println("Data conclusão conserto: " + rsClient.getString("datafinalconserto"));
+                }
+                System.out.println("Status: " + rsClient.getString("status"));
+                System.out.println("===================================");
+            }
+           
+        } catch (SQLException e){
+            System.out.println("Erro ao executar a consulta: " + e.getMessage());
+        }
+    }
+    
     public void registerEmprestimo(int idObjeto, int pessoaId, String dataInicialEmprestimo) {
         try {
             Statement statement = conexao.createStatement();
@@ -115,6 +203,32 @@ public class DbConnection {
             } else {
                 System.out.println("Nenhum registro foi adicionado ao banco de dados.");
             }
+        } catch (SQLException e){
+            System.out.println("Erro ao executar a consulta: " + e.getMessage());
+        }
+    }
+    
+    public void findEmprestimo() {
+        try {
+            Statement statement = conexao.createStatement();
+            String query = String.format("SELECT emprestimo.id, tipoobjeto.nome AS nomeObjeto, objeto.status, pessoa.nome AS dono, pessoa2.nome AS pessoaQuePegouObjeto, emprestimo.datadevolucao, emprestimo.dataemprestimo FROM emprestimo JOIN objeto ON emprestimo.objetoId = objeto.id JOIN tipoObjeto ON objeto.tipoObjetoId = tipoObjeto.id JOIN pessoa ON objeto.pessoaId = pessoa.id JOIN pessoa AS pessoa2 ON emprestimo.pessoaPortadoraId = pessoa2.id;");
+            
+            ResultSet rsClient = statement.executeQuery(query);
+
+            while (rsClient.next()) {
+                System.out.println("===================================");
+                System.out.println("Id: " + rsClient.getString("id"));
+                System.out.println("Ferramenta: " + rsClient.getString("nomeObjeto"));
+                System.out.println("Dono: " + rsClient.getString("dono"));
+                System.out.println("Pessoa que está com a ferramenta: " + rsClient.getString("pessoaQuePegouObjeto"));
+                System.out.println("Data do empréstimo: " + rsClient.getString("dataemprestimo"));
+                if(rsClient.getString("datadevolucao") != null) {
+                    System.out.println("Data devolução empréstimo: " + rsClient.getString("datadevolucao"));
+                }
+                System.out.println("Status: " + rsClient.getString("status"));
+                System.out.println("===================================");
+            }
+           
         } catch (SQLException e){
             System.out.println("Erro ao executar a consulta: " + e.getMessage());
         }
