@@ -34,10 +34,6 @@ public class ProjetoIntegrador {
                     if(opcaoMenuSecundario == 2) {
                         dataConnection.findPessoa();
                     }
-                    else {
-                        System.out.println("Opção ainda não foi implementada");
-                        System.out.println("----------------");
-                    }
                 }
                 if(opcaoMenuPrimario == 2) {
                     interfaceMenuLayout.showMenuSecondary("TIPOS DE OBJETOS");
@@ -52,10 +48,6 @@ public class ProjetoIntegrador {
                     if(opcaoMenuSecundario == 2) {
                         dataConnection.findTipoObjeto();
                     } 
-                    else {
-                        System.out.println("Opção ainda não foi implementada");
-                        System.out.println("----------------");
-                    }
                 }
                 if(opcaoMenuPrimario == 3) {
                     interfaceMenuLayout.showMenuSecondary("OBJETOS");
@@ -71,17 +63,13 @@ public class ProjetoIntegrador {
                     if(opcaoMenuSecundario == 2) {
                         dataConnection.findObjeto();
                     }
-                    else {
-                        System.out.println("Opção ainda não foi implementada");
-                        System.out.println("----------------");
-                    }
                 }
                 if(opcaoMenuPrimario == 4) {
                     interfaceMenuLayout.showMenuSecondary("MANUTENÇÃO");
                     opcaoMenuSecundario = Entrada.leiaInt("Qual ação você deseja realizar: ");
                     if(opcaoMenuSecundario == 1) {
                         int idObjeto = Entrada.leiaInt("Qual o ID do objeto que sofrerá manutenção? ");
-                        String status = "MANUTENCAO";
+                        String status = "ATIVO";
                         String descricao = Entrada.leiaString("Dê uma descrição à manutenção: ");
                         String dataInicialConserto = Entrada.leiaString("Qual a data de inicio do conserto? EX: '2023-10-25' ");
                         
@@ -89,10 +77,6 @@ public class ProjetoIntegrador {
                     }
                     if(opcaoMenuSecundario == 2) {
                         dataConnection.findManutencao();
-                    }
-                    else {
-                        System.out.println("Opção ainda não foi implementada");
-                        System.out.println("----------------");
                     }
                 }
                 if(opcaoMenuPrimario == 5) {
@@ -108,10 +92,6 @@ public class ProjetoIntegrador {
                     } 
                     if(opcaoMenuSecundario == 2) {
                         dataConnection.findEmprestimo();
-                    }
-                    else {
-                        System.out.println("Opção ainda não foi implementada");
-                        System.out.println("----------------");
                     }
                 }
             }
