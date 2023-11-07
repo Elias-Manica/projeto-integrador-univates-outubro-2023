@@ -34,6 +34,24 @@ public class ProjetoIntegrador {
                     if(opcaoMenuSecundario == 2) {
                         dataConnection.findPessoa();
                     }
+                    if(opcaoMenuSecundario == 3) {
+                        int idPessoa = Entrada.leiaInt("Qual o ID da pessoa que você deseja editar?");
+                        String nomePessoa = Entrada.leiaString("Qual o novo nome da Pessoa?");
+                        String cargo = Entrada.leiaString("Qual o nov cargo da Pessoa?");
+                        String cpf = Entrada.leiaString("Qual o cpf novo da Pessoa?");
+                        String telefone = Entrada.leiaString("Qual o novo telefone da Pessoa?");
+                        if(interfaceMenuLayout.verificaPessoa(nomePessoa, cargo, cpf, telefone)){
+                            dataConnection.editPessoa(idPessoa, nomePessoa, cargo, cpf, telefone);
+                        }
+                    }
+                    if(opcaoMenuSecundario == 5) {
+                        System.out.println("VOCÊ ESTÁ EXCLUINDO UMA PESSOA, TODOS OS OBJETOS/MANUTENÇÕES/EMPRÉSTIMOS VINCULADOS À ELA SERÃO EXCLUIDOS PERMANENTEMENTE");
+                        String resposta = Entrada.leiaString("Deseja continuar com essa ação? sim/nao ");
+                        if(resposta.equalsIgnoreCase("sim")) {
+                              int idPessoa = Entrada.leiaInt("Qual o ID da pessoa que você deseja EXCLUIR? ");
+                              dataConnection.deletePessoa(idPessoa);
+                        }
+                    }
                 }
                 if(opcaoMenuPrimario == 2) {
                     interfaceMenuLayout.showMenuSecondary("TIPOS DE OBJETOS");
@@ -47,7 +65,23 @@ public class ProjetoIntegrador {
                     } 
                     if(opcaoMenuSecundario == 2) {
                         dataConnection.findTipoObjeto();
-                    } 
+                    }
+                    if(opcaoMenuSecundario == 3) {
+                        int idTipoObjeto = Entrada.leiaInt("Qual o ID do tipo do objeto que você deseja editar?");
+                        String nomeObjeto = Entrada.leiaString("Qual o novo nome do tipo de objeto?");
+
+                        if(interfaceMenuLayout.verificaObjeto(nomeObjeto)) {
+                            dataConnection.editTipoObjeto(idTipoObjeto, nomeObjeto);
+                        }
+                    }
+                    if(opcaoMenuSecundario == 5) {
+                        System.out.println("VOCÊ ESTÁ EXCLUINDO UM TIPO DE OBJETO, TODOS OS OBJETOS/MANUTENÇÕES/EMPRÉSTIMOS VINCULADOS À ELE SERÃO EXCLUIDOS PERMANENTEMENTE");
+                        String resposta = Entrada.leiaString("Deseja continuar com essa ação? sim/nao ");
+                        if(resposta.equalsIgnoreCase("sim")) {
+                              int idTipoObjeto = Entrada.leiaInt("Qual o ID do tipo do objeto que você deseja EXCLUIR? ");
+                              dataConnection.deleteTipoObjeto(idTipoObjeto);
+                        }
+                    }
                 }
                 if(opcaoMenuPrimario == 3) {
                     interfaceMenuLayout.showMenuSecondary("OBJETOS");
@@ -62,6 +96,22 @@ public class ProjetoIntegrador {
                     }
                     if(opcaoMenuSecundario == 2) {
                         dataConnection.findObjeto();
+                    }
+                    if(opcaoMenuSecundario == 3) {
+                        int idObjeto = Entrada.leiaInt("Qual o ID do objeto que você deseja editar?");
+                        
+                        int idTipoObjeto = Entrada.leiaInt("Qual o novo ID do tipo do objeto?");
+                        int idPessoa = Entrada.leiaInt("Qual o ID da nova pessoa dona do objeto?");
+
+                        dataConnection.editObjeto(idObjeto, idTipoObjeto, idPessoa);
+                    }
+                    if(opcaoMenuSecundario == 5) {
+                        System.out.println("VOCÊ ESTÁ EXCLUINDO UM OBJETO, TODOS AS MANUTENÇÕES/EMPRÉSTIMOS VINCULADOS À ELE SERÃO EXCLUIDOS PERMANENTEMENTE");
+                        String resposta = Entrada.leiaString("Deseja continuar com essa ação? sim/nao ");
+                        if(resposta.equalsIgnoreCase("sim")) {
+                              int idObjeto = Entrada.leiaInt("Qual o ID do objeto que você deseja EXCLUIR? ");
+                              dataConnection.deleteObjeto(idObjeto);
+                        }
                     }
                 }
                 if(opcaoMenuPrimario == 4) {
@@ -78,6 +128,22 @@ public class ProjetoIntegrador {
                     if(opcaoMenuSecundario == 2) {
                         dataConnection.findManutencao();
                     }
+                    if(opcaoMenuSecundario == 3) {
+                        int idManutencao = Entrada.leiaInt("Qual o ID da manutenção que você deseja editar?");
+                        
+                        String descricao = Entrada.leiaString("Qual a nova descrição da manutenção: ");
+                        String dataInicialConserto = Entrada.leiaString("Qual a nova data de inicio do conserto? EX: '2023-10-25' ");
+
+                        dataConnection.editManutencao(idManutencao, descricao, dataInicialConserto);
+                    }
+                    if(opcaoMenuSecundario == 5) {
+                        System.out.println("VOCÊ ESTÁ EXCLUINDO UMA MANUTENÇÃO PERMANENTEMENTE. O INDICADO É APENAS DAR BAIXA");
+                        String resposta = Entrada.leiaString("Deseja continuar com essa ação? sim/nao ");
+                        if(resposta.equalsIgnoreCase("sim")) {
+                              int idManutencao = Entrada.leiaInt("Qual o ID do manutenção que você deseja EXCLUIR? ");
+                              dataConnection.deleteManutencao(idManutencao);
+                        }
+                    }
                 }
                 if(opcaoMenuPrimario == 5) {
                     interfaceMenuLayout.showMenuSecondary("EMPRÉSTIMOS");
@@ -86,12 +152,29 @@ public class ProjetoIntegrador {
                         int idObjeto = Entrada.leiaInt("Qual o ID do objeto que irá ser emprestado? ");
                         int pessoaId = Entrada.leiaInt("Qual o ID da pessoa que está pegando o objeto emprestado? ");
                         String dataInicialEmprestimo = Entrada.leiaString("Qual a data de inicio do empréstimo? EX: '2023-10-25' ");
+                        String status = "ATIVO";
                         
-                        dataConnection.registerEmprestimo(idObjeto, pessoaId, dataInicialEmprestimo);
+                        dataConnection.registerEmprestimo(idObjeto, pessoaId, dataInicialEmprestimo, status);
 
                     } 
                     if(opcaoMenuSecundario == 2) {
                         dataConnection.findEmprestimo();
+                    }
+                    if(opcaoMenuSecundario == 3) {
+                        int idEmprestimo = Entrada.leiaInt("Qual o ID do empréstimo que você deseja editar?");
+                        
+                        int pessoaId = Entrada.leiaInt("Qual o ID da nova pessoa que está pegando o objeto emprestado? ");
+                        String dataInicialEmprestimo = Entrada.leiaString("Qual a nova data de inicio do empréstimo? EX: '2023-10-25' ");
+                        
+                        dataConnection.editEmprestimo(idEmprestimo, pessoaId, dataInicialEmprestimo);
+                    }
+                    if(opcaoMenuSecundario == 5) {
+                        System.out.println("VOCÊ ESTÁ EXCLUINDO UM EMPRÉSTIMO PERMANENTEMENTE. O INDICADO É APENAS DAR BAIXA");
+                        String resposta = Entrada.leiaString("Deseja continuar com essa ação? sim/nao ");
+                        if(resposta.equalsIgnoreCase("sim")) {
+                              int idEmprestimo = Entrada.leiaInt("Qual o ID do emprestimo que você deseja EXCLUIR? ");
+                              dataConnection.deleteEmprestimo(idEmprestimo);
+                        }
                     }
                 }
             }

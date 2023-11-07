@@ -20,13 +20,13 @@ public class InterfaceMenu {
        System.out.println("1 - Incluir / Cadastrar");
        System.out.println("2 - Consultar");
        System.out.println("3 - Alterar");
-       System.out.println("4 - Excluir");
+       System.out.println("4 - Dar baixa");
+       System.out.println("5 - Excluir");
        if(typeMenu == "OBJETOS") {
-            System.out.println("5 - Realizar empréstimo");
-            System.out.println("6 - Relatórios");
+            System.out.println("6 - Realizar empréstimo");
             System.out.println("7 - Voltar");
        } else {
-           System.out.println("5 - Voltar");
+           System.out.println("6 - Voltar");
        }
     }
     

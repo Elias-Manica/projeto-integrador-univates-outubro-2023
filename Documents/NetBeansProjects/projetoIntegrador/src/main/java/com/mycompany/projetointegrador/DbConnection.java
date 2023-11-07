@@ -70,6 +70,42 @@ public class DbConnection {
         }
     }
     
+    public void editPessoa(int idPessoa, String nomePessoa,  String cargo, String cpf, String telefone) {
+        try {
+            Statement statement = conexao.createStatement();
+            String query = String.format("UPDATE public.pessoa SET nome='%s', cargo='%s', cpf='%s', telefone='%s' WHERE id=%s;", nomePessoa.toUpperCase(), cargo.toUpperCase(), cpf, telefone, idPessoa);
+            
+            int rowsAffected = statement.executeUpdate(query);
+
+            if (rowsAffected > 0) {
+                String response = String.format("O colaborador %s foi modificado", nomePessoa, cargo);
+                System.out.println(response);
+            } else {
+                System.out.println("Nenhum registro foi modificado no banco de dados.");
+            }
+        } catch (SQLException e){
+            System.out.println("Erro ao executar a consulta: " + e.getMessage());
+        }
+    }
+    
+    public void deletePessoa(int idPessoa) {
+        try {
+            Statement statement = conexao.createStatement();
+            String query = String.format("DELETE FROM public.pessoa WHERE id=%s;", idPessoa);
+            
+            int rowsAffected = statement.executeUpdate(query);
+
+            if (rowsAffected > 0) {
+                String response = String.format("O colaborador com id %s e suas relações foram foi excluidas", idPessoa);
+                System.out.println(response);
+            } else {
+                System.out.println("Nenhum registro foi modificado no banco de dados.");
+            }
+        } catch (SQLException e){
+            System.out.println("Erro ao executar a consulta: " + e.getMessage());
+        }
+    }
+    
     public void registerTipoObjeto(String nomeObjeto) {
         try {
             Statement statement = conexao.createStatement();
@@ -101,7 +137,43 @@ public class DbConnection {
                 System.out.println("Nome: " + rsClient.getString("nome"));
                 System.out.println("===================================");
             }
-           
+                       
+        } catch (SQLException e){
+            System.out.println("Erro ao executar a consulta: " + e.getMessage());
+        }
+    }
+     
+    public void editTipoObjeto(int idTipoObjeto, String nomeObjeto) {
+        try {
+            Statement statement = conexao.createStatement();
+            String query = String.format("UPDATE public.tipoobjeto SET nome='%s' WHERE id=%s;", nomeObjeto.toUpperCase(), idTipoObjeto);
+  
+            int rowsAffected = statement.executeUpdate(query);
+
+            if (rowsAffected > 0) {
+                String response = String.format("O tipo objeto com id %s foi modificado no sistema", idTipoObjeto);
+                System.out.println(response);
+            } else {
+                System.out.println("Nenhum registro foi modificado no banco de dados.");
+            }
+        } catch (SQLException e){
+            System.out.println("Erro ao executar a consulta: " + e.getMessage());
+        }
+    }
+    
+    public void deleteTipoObjeto(int idTipoObjeto) {
+        try {
+            Statement statement = conexao.createStatement();
+            String query = String.format("DELETE FROM public.tipoobjeto WHERE id=%s;", idTipoObjeto);
+            
+            int rowsAffected = statement.executeUpdate(query);
+
+            if (rowsAffected > 0) {
+                String response = String.format("O TIPO OBJETO com id %s e suas relações foram foi excluidas", idTipoObjeto);
+                System.out.println(response);
+            } else {
+                System.out.println("Nenhum registro foi modificado no banco de dados.");
+            }
         } catch (SQLException e){
             System.out.println("Erro ao executar a consulta: " + e.getMessage());
         }
@@ -141,6 +213,42 @@ public class DbConnection {
                 System.out.println("===================================");
             }
            
+        } catch (SQLException e){
+            System.out.println("Erro ao executar a consulta: " + e.getMessage());
+        }
+    }
+    
+    public void editObjeto(int idObjeto, int idTipoObjeto, int idPessoa) {
+        try {
+            Statement statement = conexao.createStatement();
+            String query = String.format("UPDATE public.objeto SET tipoobjetoid=%s, pessoaid=%s WHERE id=%s;", idTipoObjeto, idPessoa, idObjeto);
+  
+            int rowsAffected = statement.executeUpdate(query);
+
+            if (rowsAffected > 0) {
+                String response = String.format("O objeto com id %s foi modificado no sistema", idObjeto);
+                System.out.println(response);
+            } else {
+                System.out.println("Nenhum registro foi modificado no banco de dados.");
+            }
+        } catch (SQLException e){
+            System.out.println("Erro ao executar a consulta: " + e.getMessage());
+        }
+    }
+    
+    public void deleteObjeto(int idObjeto) {
+        try {
+            Statement statement = conexao.createStatement();
+            String query = String.format("DELETE FROM public.objeto WHERE id=%s;", idObjeto);
+            
+            int rowsAffected = statement.executeUpdate(query);
+
+            if (rowsAffected > 0) {
+                String response = String.format("O OBJETO com id %s e suas relações foram foi excluidas", idObjeto);
+                System.out.println(response);
+            } else {
+                System.out.println("Nenhum registro foi modificado no banco de dados.");
+            }
         } catch (SQLException e){
             System.out.println("Erro ao executar a consulta: " + e.getMessage());
         }
@@ -202,7 +310,58 @@ public class DbConnection {
         }
     }
     
-    public void registerEmprestimo(int idObjeto, int pessoaId, String dataInicialEmprestimo) {
+    public void editManutencao(int idManutencao, String descricao, String dataInicialConserto) {
+        try {
+            Statement statement = conexao.createStatement();
+            String query = String.format("UPDATE public.manutencao SET descricao='%s', datainicialconserto='%s' WHERE id=%s;", descricao, dataInicialConserto, idManutencao);
+  
+            int rowsAffected = statement.executeUpdate(query);
+
+            if (rowsAffected > 0) {
+                String response = String.format("A manutenção com id %s foi modificado no sistema", idManutencao);
+                System.out.println(response);
+            } else {
+                System.out.println("Nenhum registro foi modificado no banco de dados.");
+            }
+        } catch (SQLException e){
+            System.out.println("Erro ao executar a consulta: " + e.getMessage());
+        }
+    }
+    
+    public void deleteManutencao(int idManutencao) {
+        try {
+            Statement statement = conexao.createStatement();
+            
+            String temManutencao = String.format("SELECT objetoid FROM public.manutencao WHERE id=%s;", idManutencao);
+            ResultSet queryManutencao = statement.executeQuery(temManutencao);
+            
+            if(!queryManutencao.next()) {
+                System.out.println("Essa manutenção não existe");
+                return;
+            }
+            
+        
+            String query = String.format("DELETE FROM public.manutencao WHERE id=%s;", idManutencao);
+            String updateObjeto = String.format("UPDATE public.objeto SET status='DISPONIVEL' WHERE id = %s;", queryManutencao.getString("objetoid")); 
+           
+            statement.executeUpdate(updateObjeto);
+                
+            int rowsAffected = statement.executeUpdate(query);
+
+            if (rowsAffected > 0) {
+                String response = String.format("A manutencao com id %s e suas relações foram foi excluidas", idManutencao);
+                System.out.println(response);
+            } else {
+                System.out.println("Nenhum registro foi modificado no banco de dados.");
+            }   
+            
+            
+        } catch (SQLException e){
+            System.out.println("Erro ao executar a consulta: " + e.getMessage());
+        }
+    }
+    
+    public void registerEmprestimo(int idObjeto, int pessoaId, String dataInicialEmprestimo, String status) {
         try {
             Statement statement = conexao.createStatement();
             
@@ -214,7 +373,7 @@ public class DbConnection {
                 return;
             }
             
-            String query = String.format("INSERT INTO public.emprestimo (objetoid, pessoaportadoraid, dataemprestimo) VALUES ('%s', '%s', '%s');", idObjeto, pessoaId, dataInicialEmprestimo);
+            String query = String.format("INSERT INTO public.emprestimo (objetoid, pessoaportadoraid, dataemprestimo, status) VALUES ('%s', '%s', '%s', '%s');", idObjeto, pessoaId, dataInicialEmprestimo, status);
             String updateObjeto = String.format("UPDATE public.objeto SET status='EMPRESTADO' WHERE id = %s;", idObjeto); 
             
             int rowsAffected = statement.executeUpdate(query);
@@ -254,6 +413,57 @@ public class DbConnection {
                 System.out.println("===================================");
             }
            
+        } catch (SQLException e){
+            System.out.println("Erro ao executar a consulta: " + e.getMessage());
+        }
+    }
+    
+    public void editEmprestimo(int idEmprestimo, int pessoaId, String dataInicialConserto) {
+        try {
+            Statement statement = conexao.createStatement();
+            String query = String.format("UPDATE public.emprestimo SET pessoaportadoraid=%s, dataemprestimo='%s' WHERE id=%s;", pessoaId, dataInicialConserto, idEmprestimo);
+  
+            int rowsAffected = statement.executeUpdate(query);
+
+            if (rowsAffected > 0) {
+                String response = String.format("O empréstimo com id %s foi modificado no sistema", idEmprestimo);
+                System.out.println(response);
+            } else {
+                System.out.println("Nenhum registro foi modificado no banco de dados.");
+            }
+        } catch (SQLException e){
+            System.out.println("Erro ao executar a consulta: " + e.getMessage());
+        }
+    }
+    
+    public void deleteEmprestimo(int idEmprestimo) {
+        try {
+            Statement statement = conexao.createStatement();
+            
+            String temManutencao = String.format("SELECT objetoid FROM public.emprestimo WHERE id=%s;", idEmprestimo);
+            ResultSet queryManutencao = statement.executeQuery(temManutencao);
+            
+            if(!queryManutencao.next()) {
+                System.out.println("Essa emprestimo não existe");
+                return;
+            }
+            
+        
+            String query = String.format("DELETE FROM public.emprestimo WHERE id=%s;", idEmprestimo);
+            String updateObjeto = String.format("UPDATE public.objeto SET status='DISPONIVEL' WHERE id = %s;", queryManutencao.getString("objetoid")); 
+           
+            statement.executeUpdate(updateObjeto);
+                
+            int rowsAffected = statement.executeUpdate(query);
+
+            if (rowsAffected > 0) {
+                String response = String.format("O emprestimo com id %s e suas relações foram foi excluidas", idEmprestimo);
+                System.out.println(response);
+            } else {
+                System.out.println("Nenhum registro foi modificado no banco de dados.");
+            }   
+            
+            
         } catch (SQLException e){
             System.out.println("Erro ao executar a consulta: " + e.getMessage());
         }
