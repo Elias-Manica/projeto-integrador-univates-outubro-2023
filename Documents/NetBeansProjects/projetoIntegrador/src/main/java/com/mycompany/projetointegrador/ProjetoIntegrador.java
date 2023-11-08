@@ -142,8 +142,13 @@ public class ProjetoIntegrador {
                         
                         String descricao = Entrada.leiaString("Qual a nova descrição da manutenção: ");
                         String dataInicialConserto = Entrada.leiaString("Qual a nova data de inicio do conserto? EX: '2023-10-25' ");
+                        String taConcluido = Entrada.leiaString("A manutenção acabou? sim/nao ");
+                        String dataFinalConserto = "";
+                        if(taConcluido.equalsIgnoreCase("sim")) {
+                            dataFinalConserto = Entrada.leiaString("Qual a nova data de conclusão do conserto? EX: '2023-10-25' ");
+                        }
 
-                        dataConnection.editManutencao(idManutencao, descricao, dataInicialConserto);
+                        dataConnection.editManutencao(idManutencao, descricao, dataInicialConserto, dataFinalConserto);
                     }
                     if(opcaoMenuSecundario == 4) {
                         System.out.println("VOCÊ ESTÁ EXCLUINDO UMA MANUTENÇÃO PERMANENTEMENTE");
@@ -174,8 +179,13 @@ public class ProjetoIntegrador {
                         
                         int pessoaId = Entrada.leiaInt("Qual o ID da nova pessoa que está pegando o objeto emprestado? ");
                         String dataInicialEmprestimo = Entrada.leiaString("Qual a nova data de inicio do empréstimo? EX: '2023-10-25' ");
+                        String taConcluido = Entrada.leiaString("A manutenção acabou? sim/nao ");
+                        String dataFinalEmprestimo = "";
+                        if(taConcluido.equalsIgnoreCase("sim")) {
+                            dataFinalEmprestimo = Entrada.leiaString("Qual a nova data de conclusão do conserto? EX: '2023-10-25' ");
+                        }
                         
-                        dataConnection.editEmprestimo(idEmprestimo, pessoaId, dataInicialEmprestimo);
+                        dataConnection.editEmprestimo(idEmprestimo, pessoaId, dataInicialEmprestimo, dataFinalEmprestimo);
                     }
                     if(opcaoMenuSecundario == 4) {
                         System.out.println("VOCÊ ESTÁ EXCLUINDO UM EMPRÉSTIMO PERMANENTEMENTE");

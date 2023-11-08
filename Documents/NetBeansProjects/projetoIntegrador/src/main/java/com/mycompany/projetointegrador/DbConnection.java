@@ -359,11 +359,28 @@ public class DbConnection {
         }
     }
     
-    public void editManutencao(int idManutencao, String descricao, String dataInicialConserto) {
+    public void editManutencao(int idManutencao, String descricao, String dataInicialConserto, String dataFinalConserto) {
         try {
             Statement statement = conexao.createStatement();
-            String query = String.format("UPDATE public.manutencao SET descricao='%s', datainicialconserto='%s' WHERE id=%s;", descricao, dataInicialConserto, idManutencao);
-  
+            
+            String temManutencao = String.format("SELECT objetoid FROM public.manutencao WHERE id=%s;", idManutencao);
+            ResultSet queryManutencao = statement.executeQuery(temManutencao);
+            
+            if(!queryManutencao.next()) {
+                System.out.println("Essa manutenção não existe");
+                return;
+            }
+            
+            String query;
+            if(dataFinalConserto.length() == 0) {
+                query = String.format("UPDATE public.manutencao SET descricao='%s', datainicialconserto='%s' WHERE id=%s;", descricao, dataInicialConserto, idManutencao);
+            } else {
+                String updateObjeto = String.format("UPDATE public.objeto SET status='DISPONIVEL' WHERE id = %s;", queryManutencao.getString("objetoid")); 
+                statement.executeUpdate(updateObjeto);
+                query = String.format("UPDATE public.manutencao SET descricao='%s', datainicialconserto='%s', datafinalconserto='%s' WHERE id=%s;", descricao, dataInicialConserto, dataFinalConserto, idManutencao);
+            }
+            
+            
             int rowsAffected = statement.executeUpdate(query);
 
             if (rowsAffected > 0) {
@@ -473,11 +490,27 @@ public class DbConnection {
         }
     }
     
-    public void editEmprestimo(int idEmprestimo, int pessoaId, String dataInicialConserto) {
+    public void editEmprestimo(int idEmprestimo, int pessoaId, String dataInicialConserto, String dataFinalEmprestimo) {
         try {
             Statement statement = conexao.createStatement();
-            String query = String.format("UPDATE public.emprestimo SET pessoaportadoraid=%s, dataemprestimo='%s' WHERE id=%s;", pessoaId, dataInicialConserto, idEmprestimo);
-  
+            
+            String temEmprestimo = String.format("SELECT objetoid FROM public.emprestimo WHERE id=%s;", idEmprestimo);
+            ResultSet queryManutencao = statement.executeQuery(temEmprestimo);
+            
+            if(!queryManutencao.next()) {
+                System.out.println("Esse emprestimo não existe");
+                return;
+            }
+            
+            String query;
+            if(dataFinalEmprestimo.length() == 0) {
+                query = String.format("UPDATE public.emprestimo SET pessoaportadoraid=%s, dataemprestimo='%s' WHERE id=%s;", pessoaId, dataInicialConserto, idEmprestimo);
+            } else {
+                String updateObjeto = String.format("UPDATE public.objeto SET status='DISPONIVEL' WHERE id = %s;", queryManutencao.getString("objetoid")); 
+                statement.executeUpdate(updateObjeto);
+                query = String.format("UPDATE public.emprestimo SET pessoaportadoraid=%s, dataemprestimo='%s', datadevolucao='%s' WHERE id=%s;", pessoaId, dataInicialConserto, dataFinalEmprestimo,idEmprestimo);
+            }
+              
             int rowsAffected = statement.executeUpdate(query);
 
             if (rowsAffected > 0) {
