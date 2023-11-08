@@ -44,7 +44,7 @@ public class ProjetoIntegrador {
                             dataConnection.editPessoa(idPessoa, nomePessoa, cargo, cpf, telefone);
                         }
                     }
-                    if(opcaoMenuSecundario == 5) {
+                    if(opcaoMenuSecundario == 4) {
                         System.out.println("VOCÊ ESTÁ EXCLUINDO UMA PESSOA, TODOS OS OBJETOS/MANUTENÇÕES/EMPRÉSTIMOS VINCULADOS À ELA SERÃO EXCLUIDOS PERMANENTEMENTE");
                         String resposta = Entrada.leiaString("Deseja continuar com essa ação? sim/nao ");
                         if(resposta.equalsIgnoreCase("sim")) {
@@ -74,7 +74,7 @@ public class ProjetoIntegrador {
                             dataConnection.editTipoObjeto(idTipoObjeto, nomeObjeto);
                         }
                     }
-                    if(opcaoMenuSecundario == 5) {
+                    if(opcaoMenuSecundario == 4) {
                         System.out.println("VOCÊ ESTÁ EXCLUINDO UM TIPO DE OBJETO, TODOS OS OBJETOS/MANUTENÇÕES/EMPRÉSTIMOS VINCULADOS À ELE SERÃO EXCLUIDOS PERMANENTEMENTE");
                         String resposta = Entrada.leiaString("Deseja continuar com essa ação? sim/nao ");
                         if(resposta.equalsIgnoreCase("sim")) {
@@ -105,12 +105,21 @@ public class ProjetoIntegrador {
 
                         dataConnection.editObjeto(idObjeto, idTipoObjeto, idPessoa);
                     }
-                    if(opcaoMenuSecundario == 5) {
+                    if(opcaoMenuSecundario == 4) {
                         System.out.println("VOCÊ ESTÁ EXCLUINDO UM OBJETO, TODOS AS MANUTENÇÕES/EMPRÉSTIMOS VINCULADOS À ELE SERÃO EXCLUIDOS PERMANENTEMENTE");
                         String resposta = Entrada.leiaString("Deseja continuar com essa ação? sim/nao ");
                         if(resposta.equalsIgnoreCase("sim")) {
                               int idObjeto = Entrada.leiaInt("Qual o ID do objeto que você deseja EXCLUIR? ");
                               dataConnection.deleteObjeto(idObjeto);
+                        }
+                    }
+                    if(opcaoMenuSecundario == 5) {
+                        System.out.println("VOCÊ ESTÁ DANDO BAIXA EM UM OBJETO, TODOS AS MANUTENÇÕES/EMPRÉSTIMOS VINCULADOS À ELE SERÃO EXCLUIDOS PERMANENTEMENTE");
+                        System.out.println("Essa ação não terá retorno");
+                        String resposta = Entrada.leiaString("Deseja continuar com essa ação? sim/nao ");
+                        if(resposta.equalsIgnoreCase("sim")) {
+                              int idObjeto = Entrada.leiaInt("Qual o ID do objeto que você deseja baixar? ");
+                              dataConnection.baixaObjeto(idObjeto);
                         }
                     }
                 }
@@ -136,8 +145,8 @@ public class ProjetoIntegrador {
 
                         dataConnection.editManutencao(idManutencao, descricao, dataInicialConserto);
                     }
-                    if(opcaoMenuSecundario == 5) {
-                        System.out.println("VOCÊ ESTÁ EXCLUINDO UMA MANUTENÇÃO PERMANENTEMENTE. O INDICADO É APENAS DAR BAIXA");
+                    if(opcaoMenuSecundario == 4) {
+                        System.out.println("VOCÊ ESTÁ EXCLUINDO UMA MANUTENÇÃO PERMANENTEMENTE");
                         String resposta = Entrada.leiaString("Deseja continuar com essa ação? sim/nao ");
                         if(resposta.equalsIgnoreCase("sim")) {
                               int idManutencao = Entrada.leiaInt("Qual o ID do manutenção que você deseja EXCLUIR? ");
@@ -168,8 +177,8 @@ public class ProjetoIntegrador {
                         
                         dataConnection.editEmprestimo(idEmprestimo, pessoaId, dataInicialEmprestimo);
                     }
-                    if(opcaoMenuSecundario == 5) {
-                        System.out.println("VOCÊ ESTÁ EXCLUINDO UM EMPRÉSTIMO PERMANENTEMENTE. O INDICADO É APENAS DAR BAIXA");
+                    if(opcaoMenuSecundario == 4) {
+                        System.out.println("VOCÊ ESTÁ EXCLUINDO UM EMPRÉSTIMO PERMANENTEMENTE");
                         String resposta = Entrada.leiaString("Deseja continuar com essa ação? sim/nao ");
                         if(resposta.equalsIgnoreCase("sim")) {
                               int idEmprestimo = Entrada.leiaInt("Qual o ID do emprestimo que você deseja EXCLUIR? ");

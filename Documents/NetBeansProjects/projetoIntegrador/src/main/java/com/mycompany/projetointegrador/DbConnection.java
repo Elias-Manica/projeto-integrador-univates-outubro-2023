@@ -254,6 +254,28 @@ public class DbConnection {
         }
     }
     
+    public void baixaObjeto(int idObjeto) {
+        try {
+            Statement statement = conexao.createStatement();
+            String updateObjeto = String.format("UPDATE public.objeto SET status='BAIXADO' WHERE id = %s;", idObjeto);
+            String deleteManutencao = String.format("DELETE FROM public.manutencao WHERE objetoid=%s;", idObjeto);
+            String deleteEmprestimo = String.format("DELETE FROM public.emprestimo WHERE objetoid=%s;", idObjeto);
+            
+            statement.executeUpdate(deleteManutencao);
+            statement.executeUpdate(deleteEmprestimo);
+            int rowsAffected = statement.executeUpdate(updateObjeto);
+
+            if (rowsAffected > 0) {
+                String response = String.format("O OBJETO com id %s e suas relações foram foi baixadas", idObjeto);
+                System.out.println(response);
+            } else {
+                System.out.println("Nenhum registro foi modificado no banco de dados.");
+            }
+        } catch (SQLException e){
+            System.out.println("Erro ao executar a consulta: " + e.getMessage());
+        }
+    }
+    
     public void registerManutencao(int idObjeto, String status, String descricao, String dataInicialConserto) {
         try {
             Statement statement = conexao.createStatement();
