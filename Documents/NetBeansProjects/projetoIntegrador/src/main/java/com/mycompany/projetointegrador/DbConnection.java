@@ -55,6 +55,8 @@ public class DbConnection {
             
             ResultSet rsClient = statement.executeQuery(query);
 
+            int rowcount = 0;
+                        
             while (rsClient.next()) {
                 System.out.println("===================================");
                 System.out.println("Id: " + rsClient.getString("id"));
@@ -63,8 +65,13 @@ public class DbConnection {
                 System.out.println("CPF: " + rsClient.getString("cpf"));
                 System.out.println("Telefone: " + rsClient.getString("telefone"));
                 System.out.println("===================================");
+                rowcount++;
             }
-           
+            
+            if(rowcount == 0) {
+                System.out.println("Sem pessoas cadastradas");
+                System.out.println("===================================");
+            }
         } catch (SQLException e){
             System.out.println("Erro ao executar a consulta: " + e.getMessage());
         }
@@ -131,13 +138,19 @@ public class DbConnection {
             
             ResultSet rsClient = statement.executeQuery(query);
 
+            int rowcount = 0;
             while (rsClient.next()) {
                 System.out.println("===================================");
                 System.out.println("Id: " + rsClient.getString("id"));
                 System.out.println("Nome: " + rsClient.getString("nome"));
                 System.out.println("===================================");
+                rowcount++;
             }
-                       
+            
+            if(rowcount == 0) {
+                System.out.println("Sem tipos de objetos cadastrados");
+                System.out.println("===================================");
+            }
         } catch (SQLException e){
             System.out.println("Erro ao executar a consulta: " + e.getMessage());
         }
@@ -203,6 +216,8 @@ public class DbConnection {
             String query = String.format("SELECT objeto.id, tipoobjeto.nome AS nomeferramenta, pessoa.nome AS nomePessoa, objeto.status FROM objeto JOIN tipoobjeto ON objeto.tipoobjetoid = tipoobjeto.id JOIN pessoa ON objeto.pessoaid = pessoa.id WHERE objeto.status = 'DISPONIVEL';");
             
             ResultSet rsClient = statement.executeQuery(query);
+
+            int rowcount = 0;
             
             while (rsClient.next()) {
                 System.out.println("===================================");
@@ -210,6 +225,12 @@ public class DbConnection {
                 System.out.println("Ferramenta: " + rsClient.getString("nomeferramenta"));
                 System.out.println("Dono: " + rsClient.getString("nomePessoa"));
                 System.out.println("Status: " + rsClient.getString("status"));
+                System.out.println("===================================");
+                rowcount++;
+            }
+            
+            if(rowcount == 0) {
+                System.out.println("Sem objetos disponiveis");
                 System.out.println("===================================");
             }
            
@@ -312,6 +333,7 @@ public class DbConnection {
             
             ResultSet rsClient = statement.executeQuery(query);
 
+            int rowcount = 0; 
             while (rsClient.next()) {
                 System.out.println("===================================");
                 System.out.println("Id: " + rsClient.getString("id"));
@@ -325,8 +347,13 @@ public class DbConnection {
                     System.out.println("Data conclusão conserto: " + rsClient.getString("datafinalconserto"));
                 }
                 System.out.println("===================================");
+                rowcount++;
             }
            
+            if(rowcount == 0) {
+                System.out.println("Sem manutenções cadastradas");
+                System.out.println("===================================");
+            }
         } catch (SQLException e){
             System.out.println("Erro ao executar a consulta: " + e.getMessage());
         }
@@ -419,6 +446,7 @@ public class DbConnection {
             
             ResultSet rsClient = statement.executeQuery(query);
 
+            int rowcount = 0;
             while (rsClient.next()) {
                 System.out.println("===================================");
                 System.out.println("Id: " + rsClient.getString("id"));
@@ -433,8 +461,13 @@ public class DbConnection {
                     System.out.println("Data devolução empréstimo: " + rsClient.getString("datadevolucao"));
                 }
                 System.out.println("===================================");
+                rowcount++;
             }
            
+            if(rowcount == 0) {
+                System.out.println("Sem empréstimos cadastrados");
+                System.out.println("===================================");
+            }
         } catch (SQLException e){
             System.out.println("Erro ao executar a consulta: " + e.getMessage());
         }
