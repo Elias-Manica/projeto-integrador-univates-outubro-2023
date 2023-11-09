@@ -297,6 +297,78 @@ public class DbConnection {
         }
     }
     
+    public void findAllObjeto() {
+        try {
+            Statement statement = conexao.createStatement();
+            String query = String.format("SELECT objeto.id, tipoobjeto.nome AS nomeObjeto, objeto.status, pessoa.nome AS dono, pessoa2.nome AS pessoaQuePegouObjeto FROM emprestimo JOIN objeto ON emprestimo.objetoId = objeto.id JOIN tipoObjeto ON objeto.tipoObjetoId = tipoObjeto.id JOIN pessoa ON objeto.pessoaId = pessoa.id JOIN pessoa AS pessoa2 ON emprestimo.pessoaPortadoraId = pessoa2.id WHERE emprestimo.datadevolucao IS NULL;");
+            
+            ResultSet rsClient = statement.executeQuery(query);
+
+            int rowcount = 0;
+            
+            while (rsClient.next()) {
+                System.out.println("===================================");
+                System.out.println("Id: " + rsClient.getString("id"));
+                System.out.println("Ferramenta: " + rsClient.getString("nomeObjeto"));
+                System.out.println("Dono: " + rsClient.getString("dono"));
+                System.out.println("Pessoa que pegou objeto: " + rsClient.getString("pessoaQuePegouObjeto"));
+                System.out.println("Status: " + rsClient.getString("status"));
+                System.out.println("===================================");
+                rowcount++;
+            }
+           
+            String queryObject = String.format("SELECT objeto.id, tipoobjeto.nome AS nomeferramenta, pessoa.nome AS nomePessoa, objeto.status FROM objeto JOIN tipoobjeto ON objeto.tipoobjetoid = tipoobjeto.id JOIN pessoa ON objeto.pessoaid = pessoa.id WHERE objeto.status != 'EMPRESTADO' ORDER BY tipoobjeto.nome ASC;");
+           
+            ResultSet rsClientObject = statement.executeQuery(queryObject);
+            
+            while (rsClientObject.next()) {
+                System.out.println("===================================");
+                System.out.println("Id: " + rsClientObject.getString("id"));
+                System.out.println("Ferramenta: " + rsClientObject.getString("nomeferramenta"));
+                System.out.println("Dono: " + rsClientObject.getString("nomePessoa"));
+                System.out.println("Status: " + rsClientObject.getString("status"));
+                System.out.println("===================================");
+                rowcount++;
+            }
+            
+            if(rowcount == 0) {
+                System.out.println("Sem objetos para serem mostrados");
+                System.out.println("===================================");
+            }
+        } catch (SQLException e){
+            System.out.println("Erro ao executar a consulta: " + e.getMessage());
+        }
+    }
+    
+    public void findObjetoBasedOnType(int idTipo) {
+        try {
+            Statement statement = conexao.createStatement();
+            String query = String.format("SELECT objeto.id, tipoobjeto.nome AS nomeferramenta, pessoa.nome AS nomePessoa, objeto.status FROM objeto JOIN tipoobjeto ON objeto.tipoobjetoid = tipoobjeto.id JOIN pessoa ON objeto.pessoaid = pessoa.id WHERE tipoobjeto.id = %s;", idTipo);
+            
+            ResultSet rsClient = statement.executeQuery(query);
+
+            int rowcount = 0;
+            
+            while (rsClient.next()) {
+                System.out.println("===================================");
+                System.out.println("Id: " + rsClient.getString("id"));
+                System.out.println("Ferramenta: " + rsClient.getString("nomeferramenta"));
+                System.out.println("Dono: " + rsClient.getString("nomePessoa"));
+                System.out.println("Status: " + rsClient.getString("status"));
+                System.out.println("===================================");
+                rowcount++;
+            }
+            
+            if(rowcount == 0) {
+                System.out.println("Sem objetos disponiveis");
+                System.out.println("===================================");
+            }
+           
+        } catch (SQLException e){
+            System.out.println("Erro ao executar a consulta: " + e.getMessage());
+        }
+    }
+    
     public void registerManutencao(int idObjeto, String status, String descricao, String dataInicialConserto) {
         try {
             Statement statement = conexao.createStatement();
@@ -477,6 +549,51 @@ public class DbConnection {
                 if(rsClient.getString("datadevolucao") != null) {
                     System.out.println("Data devolução empréstimo: " + rsClient.getString("datadevolucao"));
                 }
+                System.out.println("===================================");
+                rowcount++;
+            }
+           
+            if(rowcount == 0) {
+                System.out.println("Sem empréstimos cadastrados");
+                System.out.println("===================================");
+            }
+        } catch (SQLException e){
+            System.out.println("Erro ao executar a consulta: " + e.getMessage());
+        }
+    }
+    
+    public void findEmprestimoBasedOnDate(String date) {
+        try {
+            Statement statement = conexao.createStatement();
+            String query = String.format("SELECT emprestimo.id, tipoobjeto.nome AS nomeObjeto, objeto.status, pessoa.nome AS dono, pessoa2.nome AS pessoaQuePegouObjeto, emprestimo.dataemprestimo FROM emprestimo JOIN objeto ON emprestimo.objetoId = objeto.id JOIN tipoObjeto ON objeto.tipoObjetoId = tipoObjeto.id JOIN pessoa ON objeto.pessoaId = pessoa.id JOIN pessoa AS pessoa2 ON emprestimo.pessoaPortadoraId = pessoa2.id WHERE emprestimo.datadevolucao IS NULL AND emprestimo.dataemprestimo = '%s';", date);
+            
+            ResultSet rsClient = statement.executeQuery(query);
+
+            int rowcount = 0;
+            System.out.println("Objetos emprestados: ");
+            while (rsClient.next()) {
+                System.out.println("===================================");
+                System.out.println("Id: " + rsClient.getString("id"));
+                System.out.println("Ferramenta: " + rsClient.getString("nomeObjeto"));
+                System.out.println("Dono: " + rsClient.getString("dono"));
+                System.out.println("Pessoa que está com a ferramenta: " + rsClient.getString("pessoaQuePegouObjeto"));
+                System.out.println("Data do empréstimo: " + rsClient.getString("dataemprestimo"));
+                System.out.println("===================================");
+                rowcount++;
+            }
+            
+            String queryEmprestados = String.format("SELECT emprestimo.id, tipoobjeto.nome AS nomeObjeto, objeto.status, pessoa.nome AS dono, pessoa2.nome AS pessoaQuePegouObjeto, emprestimo.dataemprestimo FROM emprestimo JOIN objeto ON emprestimo.objetoId = objeto.id JOIN tipoObjeto ON objeto.tipoObjetoId = tipoObjeto.id JOIN pessoa ON objeto.pessoaId = pessoa.id JOIN pessoa AS pessoa2 ON emprestimo.pessoaPortadoraId = pessoa2.id WHERE emprestimo.datadevolucao IS NOT NULL AND emprestimo.dataemprestimo = '%s';", date);
+            
+            ResultSet rsClientEmprestados = statement.executeQuery(queryEmprestados);
+
+            System.out.println("Objetos devolvidos: ");
+            while (rsClientEmprestados.next()) {
+                System.out.println("===================================");
+                System.out.println("Id: " + rsClientEmprestados.getString("id"));
+                System.out.println("Ferramenta: " + rsClientEmprestados.getString("nomeObjeto"));
+                System.out.println("Dono: " + rsClientEmprestados.getString("dono"));
+                System.out.println("Pessoa que está com a ferramenta: " + rsClientEmprestados.getString("pessoaQuePegouObjeto"));
+                System.out.println("Data do empréstimo: " + rsClientEmprestados.getString("dataemprestimo"));
                 System.out.println("===================================");
                 rowcount++;
             }

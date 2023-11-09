@@ -122,6 +122,13 @@ public class ProjetoIntegrador {
                               dataConnection.baixaObjeto(idObjeto);
                         }
                     }
+                    if(opcaoMenuSecundario == 6) {
+                        dataConnection.findAllObjeto();
+                    }
+                    if(opcaoMenuSecundario == 7) {
+                        int tipoObjeto = Entrada.leiaInt("Qual o id do tipo do objeto que você deseja filtrar? ");
+                        dataConnection.findObjetoBasedOnType(tipoObjeto);
+                    }
                 }
                 if(opcaoMenuPrimario == 4) {
                     interfaceMenuLayout.showMenuSecondary("MANUTENÇÃO");
@@ -194,6 +201,10 @@ public class ProjetoIntegrador {
                               int idEmprestimo = Entrada.leiaInt("Qual o ID do emprestimo que você deseja EXCLUIR? ");
                               dataConnection.deleteEmprestimo(idEmprestimo);
                         }
+                    }
+                    if(opcaoMenuSecundario == 5) {
+                        String date = Entrada.leiaString("Qual a data para ser filtrada? ");
+                        dataConnection.findEmprestimoBasedOnDate(date);
                     }
                 }
             }

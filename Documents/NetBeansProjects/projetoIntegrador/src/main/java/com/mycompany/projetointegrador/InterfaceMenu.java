@@ -23,6 +23,11 @@ public class InterfaceMenu {
        System.out.println("4 - Excluir");
        if(typeMenu == "OBJETOS") {
             System.out.println("5 - Dar baixa");
+            System.out.println("6 - Buscar TODOS objetos");
+            System.out.println("7 - Buscar objetos com base nos tipos");
+            System.out.println("8 - Voltar");
+       } else if (typeMenu == "EMPRÉSTIMOS") {
+            System.out.println("5 - Filtrar baseado na data");
             System.out.println("6 - Voltar");
        } else {
            System.out.println("5 - Voltar");
